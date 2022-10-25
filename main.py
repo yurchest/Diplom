@@ -44,11 +44,20 @@ def addRules(rules: dict):
 
 
 def make_func(facts_validated, fact_to_add):
-    return Rule(AND(*tuple(facts_validated)))(lambda self: self.declare(Fact(fact_to_add)))
+    def func(self):
+        if '=' in fact_to_add:
+            exec(f"self.declare(Fact({fact_to_add}))")
+        else:
+            exec(f"self.declare(Fact('{fact_to_add}'))")
+
+    return Rule(AND(*tuple(facts_validated)))(func)
 
 
 class KE(KnowledgeEngine):
-    pass
+    @DefFacts()
+    def init_data(self):
+        yield Fact(temp=150)
+        yield Fact(pressure=18)
 
 
 def getDictData():
@@ -64,6 +73,6 @@ addRules(getDictData())
 
 engine = KE()
 engine.reset()
-engine.declare(Fact(temp=10, pressure=18))
+# engine.declare(Fact(temp=150, pressure=18))
 engine.run()
 print(engine.facts)
