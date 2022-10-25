@@ -21,18 +21,6 @@ def getRulesFromDb():
             print("The SQLite connection is closed")
 
 
-class KE(KnowledgeEngine):
-    pass
-
-
-knowlege_base = getRulesFromDb()
-rules = {}
-for record in knowlege_base:
-    rules.update({record[1]: record[2]})
-
-print(rules)
-
-
 def addRules(rules: dict):
     for k in rules.keys():
         facts_validated = []
@@ -59,10 +47,23 @@ def make_func(facts_validated, fact_to_add):
     return Rule(AND(*tuple(facts_validated)))(lambda self: self.declare(Fact(fact_to_add)))
 
 
-addRules(rules)
+class KE(KnowledgeEngine):
+    pass
+
+
+def getDictData():
+    knowlege_base = getRulesFromDb()
+    rules = {}
+    for record in knowlege_base:
+        rules.update({record[1]: record[2]})
+    print(rules)
+    return rules
+
+
+addRules(getDictData())
 
 engine = KE()
 engine.reset()
-engine.declare(Fact(temp=10, pressure=24))
+engine.declare(Fact(temp=10, pressure=18))
 engine.run()
 print(engine.facts)
