@@ -29,7 +29,6 @@ def addRules(rules: dict):
         facts_validated = []
         if ';' in k:
             key_rule_splitted = k.split(';')
-''
             for rule in key_rule_splitted:
                 logic_to_check = ['>', '<', '>=', '<=', '=']
                 if any(log in rule for log in logic_to_check):
