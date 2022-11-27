@@ -1,96 +1,83 @@
-from experta import *
-import sqlite3
-from boolean_parser import parse
-import pandas as pd
+import sys
+from PyQt6.QtWidgets import QApplication, QWidget, QFileDialog
+from UI.form import *
+from Models.production_base import ProdBaseModel
+from database import connect_QSQL_db
+from Widgets.init_data import InitData
+
+from core_expert import *
 
 
-def getRulesFromDb():
-    try:
-        sqliteConnection = sqlite3.connect('test_db.db')
-        cursor = sqliteConnection.cursor()
-        print("Database Successfully Connected to SQLite")
-        sqlite_select_Query = "SELECT * FROM test"
-        cursor.execute(sqlite_select_Query)
-        record = cursor.fetchall()
-        # df = pd.read_sql_query("SELECT * FROM test", sqliteConnection)
-        # print(df)
-        cursor.close()
-        return record
-    except sqlite3.Error as error:
-        print("Error while connecting to sqlite", error)
-    finally:
-        if sqliteConnection:
-            sqliteConnection.close()
-            print("The SQLite connection is closed")
+class App(QWidget):
+    tablename = "test"
 
+    def __init__(self):
+        QWidget.__init__(self)
+        self.w = QtWidgets.QMainWindow()
+        self.w_root = Ui_MainWindow()
+        self.w_root.setupUi(self.w)
 
-def addRules(rules: dict):
-    for k in rules.keys():
-        facts_validated = []
-        if ';' in k:
-            key_rule_splitted = k.split(';')
-            for rule in key_rule_splitted:
-                logic_to_check = ['>', '<', '>=', '<=', '=']
-                if any(log in rule for log in logic_to_check):
-                    rule_splitted = parse(rule)
-                    if rule_splitted.operator == '=':
-                        rule_splitted.operator = '=='
-                    exec(f"facts_validated.append(Fact({rule_splitted.name} = P(lambda {rule_splitted.name}: {rule})))")
-                else:
-                    exec(f"facts_validated.append(Fact('{rule}'))")
+        self.init_data_form = InitData(self)
+        self.w_root.pushButton_2.setEnabled(False)
+        self.w_root.pushButton_3.setEnabled(False)
 
-        else:
-            exec(f"facts_validated.append(Fact('{k}'))")
+        self.w_root.pushButton.clicked.connect(self.download_base)
+        self.w_root.pushButton_3.clicked.connect(self.init_data)
+        self.w_root.pushButton_2.clicked.connect(self.solve)
 
-        setattr(KE, rules[k], make_func(facts_validated, rules[k]))
+        self.w.show()
 
+    def download_base(self):
+        filename, _ = QFileDialog.getOpenFileName(None, 'Open Base', './', "Database (*.db *.sqlite *.sqlite3)")
+        self.db = connect_QSQL_db(filename)
+        if self.db:
+            self.base_model = ProdBaseModel(self.db, self.tablename)
+            self.w_root.tableView.setModel(self.base_model)
+            self.db.close()
+            self.df_rules = getRulesFromDb(filename, self.tablename)
+            self.w_root.pushButton_2.setEnabled(True)
+            self.w_root.pushButton_3.setEnabled(True)
+            KE = type("KE", (KnowledgeEngine,), dict())
+            addRules(self.df_rules, KE)
+            self.engine = KE()
+            self.engine.reset()
+            print(self.df_rules)
 
-def make_rule_decorator(lhs: str):
-    logic_to_check = ['>', '<', '>=', '<=', '=']
-    rules_validated = []
-    if '&' in lhs:
-        lhs_splitted = lhs.split('&')
-
-        for rule in lhs_splitted:
-            if any(log in rule for log in logic_to_check):
-                rule_parsed = parse(rule)
-                if rule_parsed.operator == '=':
-                    rule_parsed.operator = '=='
-                exec(f"rules_validated.append(Fact({rule_parsed.name} = P(lambda {rule_parsed.name}: {rule})))")
-
-
-def make_func(facts_validated, fact_to_add):
-    def func(self):
-        if '=' in fact_to_add:
-            exec(f"self.declare(Fact({fact_to_add}))")
-        else:
-            exec(f"self.declare(Fact('{fact_to_add}'))")
-
-    return Rule(AND(*tuple(facts_validated)))(func)
-
-
-class KE(KnowledgeEngine):
-    @DefFacts()
     def init_data(self):
-        yield Fact(temp=150)
-        yield Fact(pressure=18)
+        self.init_data_form.w.show()
+        # self.update_work_memory()
+
+    def solve(self):
+        self.engine.run()
+        self.update_work_memory()
+        self.find_actions_in_facts()
+        # print(self.engine.facts[2].as_dict())
+        # print(self.engine.facts)
+
+    def update_work_memory(self):
+        facts = []
+        for i in range(1, len(self.engine.facts)):
+            key = str(list(self.engine.facts[i].as_dict().keys())[0])
+            value = str(list(self.engine.facts[i].as_dict().values())[0])
+            if key != "0":
+                facts.append(key + ' = ' + value)
+            else:
+                facts.append(value)
+        self.w_root.textBrowser.clear()
+        self.w_root.textBrowser.setText("\n".join(facts))
+
+    def find_actions_in_facts(self):
+        actions = []
+        for i in range(1, len(self.engine.facts)):
+            key = str(list(self.engine.facts[i].as_dict().keys())[0])
+            value = str(list(self.engine.facts[i].as_dict().values())[0])
+            if key == "action":
+                actions.append(value)
+
+        self.w_root.textBrowser_4.setText("\n".join(actions))
 
 
-def getDictData():
-    knowlege_base = getRulesFromDb()
-    rules = {}
-    for record in knowlege_base:
-        rules.update({record[1]: record[2]})
-    print(rules)
-    return rules
-
-
-data = getDictData()
-addRules(data)
-
-engine = KE()
-engine.reset()
-# engine.declare(Fact(temp=150, pressure=18))
-engine.run()
-print(engine.facts)
-
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    ex = App()
+    app.exec()
