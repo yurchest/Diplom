@@ -12,6 +12,7 @@ from boolean_parser import parse
 def make_rule_decorator(lhs: str) -> list:
     logic_to_check = ['>', '<', '>=', '<=', '=']
     rules_validated = []
+    print(lhs)
     lhs_splitted = lhs.split('&')
     for rule in lhs_splitted:
         if any(log in rule for log in logic_to_check):
@@ -19,6 +20,8 @@ def make_rule_decorator(lhs: str) -> list:
             if rule_parsed.operator == '=':
                 rule_parsed.operator = '=='
             exec(f"rules_validated.append(Fact({rule_parsed.name} = P(lambda {rule_parsed.name}: {rule_parsed})))")
+        else:
+            exec(f"rules_validated.append(Fact('{rule}'))")
     return rules_validated
 
 
