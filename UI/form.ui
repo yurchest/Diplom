@@ -10,10 +10,64 @@
     <height>784</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>14</pointsize>
+    <weight>75</weight>
+    <italic>true</italic>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+	border: 1px solid gray;
+	border-radius: 15%;
+	background-color: rgba(84, 134, 135,180);
+
+}
+
+QPushButton:hover { 
+	border-width: 2px;
+	background-color: rgba(84, 134, 135,140);
+}
+
+
+QPushButton:pressed { 
+	border-style: inset;
+	background-color: rgba(84, 134, 135,100);
+}
+
+#centralwidget{
+background-color:rgba(1, 25, 54,30)
+}
+
+QTextBrowser {
+	background-color:rgba(59, 193, 74,100);
+	border-radius: 8%;
+}
+
+QTableView {
+border-radius: 8%;
+background-color:rgba(215, 179, 119,100);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="font">
+    <font>
+     <family>Arial Black</family>
+     <pointsize>11</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -25,7 +79,11 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -43,18 +101,40 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>50</y>
-      <width>151</width>
-      <height>23</height>
+      <x>560</x>
+      <y>30</y>
+      <width>221</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Загрузить Базу Знаний</string>
@@ -71,7 +151,11 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -89,7 +173,11 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
    </widget>
@@ -104,7 +192,11 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -122,7 +214,11 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -140,7 +236,11 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
    </widget>
@@ -155,8 +255,15 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Решить</string>
@@ -165,11 +272,28 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>1070</x>
+      <x>1080</x>
       <y>50</y>
-      <width>71</width>
-      <height>23</height>
+      <width>81</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#pushButton_3{
+	border-radius:10%;
+}</string>
     </property>
     <property name="text">
      <string>Задать</string>
@@ -184,6 +308,15 @@
       <height>641</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -192,7 +325,7 @@
      <x>0</x>
      <y>0</y>
      <width>1623</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

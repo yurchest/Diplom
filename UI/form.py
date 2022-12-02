@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\form.ui'
+# Form implementation generated from reading ui file 'UI/form.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.0
 #
@@ -13,68 +13,175 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1623, 784)
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        MainWindow.setFont(font)
+        MainWindow.setAutoFillBackground(True)
+        MainWindow.setStyleSheet("QPushButton {\n"
+"    border: 1px solid gray;\n"
+"    border-radius: 15%;\n"
+"    background-color: rgba(84, 134, 135,180);\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:hover { \n"
+"    border-width: 2px;\n"
+"    background-color: rgba(84, 134, 135,140);\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton:pressed { \n"
+"    border-style: inset;\n"
+"    background-color: rgba(84, 134, 135,100);\n"
+"}\n"
+"\n"
+"#centralwidget{\n"
+"background-color:rgba(1, 25, 54,30)\n"
+"}\n"
+"\n"
+"QTextBrowser {\n"
+"    background-color:rgba(59, 193, 74,100);\n"
+"    border-radius: 8%;\n"
+"}\n"
+"\n"
+"QTableView {\n"
+"border-radius: 8%;\n"
+"background-color:rgba(215, 179, 119,100);\n"
+"}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        font = QtGui.QFont()
+        font.setFamily("Arial Black")
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.centralwidget.setFont(font)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(1190, 30, 171, 61))
         font = QtGui.QFont()
+        font.setFamily("Times New Roman")
         font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setGeometry(QtCore.QRect(1190, 90, 271, 321))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(640, 50, 151, 23))
+        self.pushButton.setGeometry(QtCore.QRect(560, 30, 221, 41))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton.setFont(font)
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton.setAutoFillBackground(False)
+        self.pushButton.setStyleSheet("")
         self.pushButton.setObjectName("pushButton")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(900, 30, 171, 61))
         font = QtGui.QFont()
+        font.setFamily("Times New Roman")
         font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.textBrowser_2 = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser_2.setGeometry(QtCore.QRect(900, 90, 241, 321))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.textBrowser_2.setFont(font)
         self.textBrowser_2.setObjectName("textBrowser_2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(30, 20, 171, 61))
         font = QtGui.QFont()
+        font.setFamily("Times New Roman")
         font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(900, 440, 231, 61))
         font = QtGui.QFont()
+        font.setFamily("Times New Roman")
         font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.textBrowser_4 = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser_4.setGeometry(QtCore.QRect(900, 500, 391, 221))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.textBrowser_4.setFont(font)
         self.textBrowser_4.setObjectName("textBrowser_4")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(1310, 680, 141, 41))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.pushButton_2.setFont(font)
+        self.pushButton_2.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(1070, 50, 71, 23))
+        self.pushButton_3.setGeometry(QtCore.QRect(1080, 50, 81, 31))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton_3.setStyleSheet("#pushButton_3{\n"
+"    border-radius:10%;\n"
+"}")
         self.pushButton_3.setObjectName("pushButton_3")
         self.tableView = QtWidgets.QTableView(self.centralwidget)
         self.tableView.setGeometry(QtCore.QRect(30, 80, 761, 641))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.tableView.setFont(font)
         self.tableView.setObjectName("tableView")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1623, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1623, 23))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
