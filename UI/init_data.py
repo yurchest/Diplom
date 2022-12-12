@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\init_data.ui'
+# Form implementation generated from reading ui file 'UI/init_data.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.0
 #
@@ -20,7 +20,7 @@ class Ui_Form(object):
         self.textEdit.setFont(font)
         self.textEdit.setObjectName("textEdit")
         self.label_2 = QtWidgets.QLabel(Form)
-        self.label_2.setGeometry(QtCore.QRect(10, 0, 161, 41))
+        self.label_2.setGeometry(QtCore.QRect(10, 0, 241, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.label_2.setFont(font)

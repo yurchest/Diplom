@@ -9,55 +9,90 @@ from boolean_parser import parse
 #     pass
 
 
-def make_rule_decorator(lhs: str) -> list:
+def make_rule_decorator(lhs: str, support: str) -> list:
     logic_to_check = ['>', '<', '>=', '<=', '=']
     rules_validated = []
-    print(lhs)
+    support_splitted = support.split(";")
+    # print(lhs)
     lhs_splitted = lhs.split('&')
-    for rule in lhs_splitted:
+    for rule, sup in zip(lhs_splitted, support_splitted):
+
         if any(log in rule for log in logic_to_check):
             rule_parsed = parse(rule)
             if rule_parsed.operator == '=':
                 rule_parsed.operator = '=='
-            exec(f"rules_validated.append(Fact({rule_parsed.name} = P(lambda {rule_parsed.name}: {rule_parsed})))")
+            try:
+                num = float(rule_parsed.value)
+                exec(f"rules_validated.append(Fact({rule_parsed.name} = P(lambda {rule_parsed.name}: {rule_parsed})))")
+            except ValueError:
+                exec(f"rules_validated.append(Fact({rule_parsed.name} = P(lambda {rule_parsed.name}: {rule_parsed.name} == '{rule_parsed.value}')))")
+            exec(
+                f"rules_validated.append(Fact({rule_parsed.name}_support_ = P(lambda {rule_parsed.name}_support_: {rule_parsed.name}_support_ > {sup})))")
+
         else:
             exec(f"rules_validated.append(Fact('{rule}'))")
+            exec(
+                f"rules_validated.append(Fact({rule}_support_ = P(lambda {rule}_support_: {rule}_support_ > {sup})))")
     return rules_validated
 
 
-def make_func(rules_validated: list, fact_to_add: str, postcondition: str, priority: int) -> Rule:
+def make_func(rules_validated: list, fact_to_add: str, probability: float, priority: int) -> Rule:
     def func(self):
         if '=' in fact_to_add:
-            exec(f"self.declare(Fact({fact_to_add}))")
+            fact_to_add_parsed = parse(fact_to_add)
+            print(fact_to_add_parsed)
+            try:
+                num = float(fact_to_add_parsed.value)
+                exec(f"self.declare(Fact({fact_to_add_parsed.name} = {num}))")
+            except ValueError:
+                print(f"self.declare(Fact({fact_to_add_parsed.name}='{fact_to_add_parsed.value}'))")
+                exec(f"self.declare(Fact({fact_to_add_parsed.name}='{fact_to_add_parsed.value}'))")
+
+            fact_to_add__support = fact_to_add.split("=")[0].strip() + "_support_=" + str(probability)
         else:
             exec(f"self.declare(Fact('{fact_to_add}'))")
-        if postcondition:
-            exec(f"self.declare(Fact(action = '{postcondition}'))")
+            fact_to_add__support = fact_to_add + "_support_=" + str(probability)
+        exec(f"self.declare(Fact({fact_to_add__support}))")
 
     return Rule(AND(*tuple(rules_validated)), salience=priority)(func)
 
 
 def addRules(productions: DataFrame, ex) -> None:
     for ind in productions.index:
-        rules_validated = make_rule_decorator(productions['lhs'][ind])
-        setattr(ex, f"_{ind}", make_func(rules_validated, productions['rhs'][ind], productions['action'][ind], productions['priority'][ind]))
+        rules_validated = make_rule_decorator(productions['lhs'][ind], productions['support'][ind])
+        setattr(ex, f"_{ind}", make_func(rules_validated, productions['rhs'][ind], productions['probability'][ind],
+                                         productions['priority'][ind]))
 
 
-def declare_facts(facts: list[str], engine):
+def declare_facts(facts: list[str], engine, support=1.0):
     for fact_to_add in facts:
         if '=' in fact_to_add:
-            exec(f"engine.declare(Fact({fact_to_add}))")
+            fact_to_add_parsed = parse(fact_to_add)
+            print(fact_to_add_parsed)
+            try:
+                num = float(fact_to_add_parsed.value)
+                exec(f"engine.declare(Fact({fact_to_add_parsed.name} = {num}))")
+            except ValueError:
+                print(f"engine.declare(Fact({fact_to_add_parsed.name}='{fact_to_add_parsed.value}'))")
+                exec(f"engine.declare(Fact({fact_to_add_parsed.name}='{fact_to_add_parsed.value}'))")
+
+
+            fact_to_add__support = fact_to_add.split("=")[0].strip() + "_support_=" + str(support)
         else:
             exec(f"engine.declare(Fact('{fact_to_add}'))")
+            fact_to_add__support = fact_to_add.strip() + "_support_=" + str(support)
+        exec(f"engine.declare(Fact({fact_to_add__support}))")
 
 
 if __name__ == '__main__':
     KE = type("KE", (KnowledgeEngine,), dict())
-    addRules(getRulesFromDb("test_db.db", "test"), KE)
+    addRules(getRulesFromDb("test_db_2.db", "test"), KE)
     engine = KE()
     engine.reset()
-    engine.declare(Fact(temp=150, pressure=18))
-
+    try:
+        engine.modify(Fact(temperature=-10, pressure=18))
+    except IndexError:
+        engine.declare(Fact(temperature=-10, pressure=18))
 
 
     engine.run()

@@ -5,8 +5,8 @@ from PyQt6.QtCore import Qt
 class ProdBaseModel(QSqlQueryModel):
     header_data = {"date": "Дата",
                    "lhs": "Условие",
+                   "support": "Поддержка",
                    "rhs": "Постусловие",
-                   "action": "Действие",
                    "probability": "Уверенность \nвыполнения",
                    "proportion": "Доля \nнаблюдений",
                    "priority": "Приоритет",

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1623</width>
-    <height>784</height>
+    <width>1786</width>
+    <height>671</height>
    </rect>
   </property>
   <property name="font">
@@ -71,8 +71,8 @@ background-color:rgba(215, 179, 119,100);
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>30</y>
+      <x>1340</x>
+      <y>20</y>
       <width>171</width>
       <height>61</height>
      </rect>
@@ -80,7 +80,7 @@ background-color:rgba(215, 179, 119,100);
     <property name="font">
      <font>
       <family>Times New Roman</family>
-      <pointsize>14</pointsize>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -93,10 +93,10 @@ background-color:rgba(215, 179, 119,100);
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>90</y>
-      <width>271</width>
-      <height>321</height>
+      <x>1340</x>
+      <y>80</y>
+      <width>411</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="font">
@@ -112,7 +112,7 @@ background-color:rgba(215, 179, 119,100);
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>800</x>
       <y>30</y>
       <width>221</width>
       <height>41</height>
@@ -143,8 +143,8 @@ background-color:rgba(215, 179, 119,100);
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>30</y>
+      <x>1050</x>
+      <y>20</y>
       <width>171</width>
       <height>61</height>
      </rect>
@@ -152,7 +152,7 @@ background-color:rgba(215, 179, 119,100);
     <property name="font">
      <font>
       <family>Times New Roman</family>
-      <pointsize>14</pointsize>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -165,10 +165,10 @@ background-color:rgba(215, 179, 119,100);
    <widget class="QTextBrowser" name="textBrowser_2">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>90</y>
-      <width>241</width>
-      <height>321</height>
+      <x>1050</x>
+      <y>80</y>
+      <width>251</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="font">
@@ -193,7 +193,7 @@ background-color:rgba(215, 179, 119,100);
     <property name="font">
      <font>
       <family>Times New Roman</family>
-      <pointsize>14</pointsize>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -203,52 +203,11 @@ background-color:rgba(215, 179, 119,100);
      <string>База Знаний</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>440</y>
-      <width>231</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Times New Roman</family>
-      <pointsize>14</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Решения (действия)</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser_4">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>500</y>
-      <width>391</width>
-      <height>221</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Times New Roman</family>
-      <pointsize>14</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>1310</x>
-      <y>680</y>
+      <x>1610</x>
+      <y>560</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -272,10 +231,10 @@ background-color:rgba(215, 179, 119,100);
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>50</y>
+      <x>1230</x>
+      <y>30</y>
       <width>81</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -304,8 +263,8 @@ background-color:rgba(215, 179, 119,100);
      <rect>
       <x>30</x>
       <y>80</y>
-      <width>761</width>
-      <height>641</height>
+      <width>981</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="font">
@@ -324,7 +283,7 @@ background-color:rgba(215, 179, 119,100);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1623</width>
+     <width>1786</width>
      <height>23</height>
     </rect>
    </property>

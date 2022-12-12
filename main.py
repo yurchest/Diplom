@@ -33,6 +33,9 @@ class App(QWidget):
         if self.db:
             self.base_model = ProdBaseModel(self.db, self.tablename)
             self.w_root.tableView.setModel(self.base_model)
+            self.resize_columns()
+            # self.w_root.tableView.horizontalHeader().moveSection(5, 3)
+            # self.w_root.tableView.horizontalHeader().moveSection(6, 4)
             self.db.close()
             self.df_rules = getRulesFromDb(filename, self.tablename)
             self.w_root.pushButton_2.setEnabled(True)
@@ -50,7 +53,6 @@ class App(QWidget):
     def solve(self):
         self.engine.run()
         self.update_work_memory()
-        self.find_actions_in_facts()
         # print(self.engine.facts[2].as_dict())
         # print(self.engine.facts)
 
@@ -59,22 +61,29 @@ class App(QWidget):
         for i in range(1, len(self.engine.facts)):
             key = str(list(self.engine.facts[i].as_dict().keys())[0])
             value = str(list(self.engine.facts[i].as_dict().values())[0])
-            if key != "0":
-                facts.append(key + ' = ' + value)
-            else:
-                facts.append(value)
+            support = self.get_support(key)
+            if "_support_" not in key:
+                if key != "0":
+                    k_value = f"{key} = {value} \t\t"
+                    if len(k_value) < 13:
+                        k_value += "\t"
+                    facts.append(f"{k_value} | Support = {support}")
+                else:
+                    facts.append(value)
         self.w_root.textBrowser.clear()
         self.w_root.textBrowser.setText("\n".join(facts))
 
-    def find_actions_in_facts(self):
-        actions = []
+    def get_support(self, key):
         for i in range(1, len(self.engine.facts)):
-            key = str(list(self.engine.facts[i].as_dict().keys())[0])
-            value = str(list(self.engine.facts[i].as_dict().values())[0])
-            if key == "action":
-                actions.append(value)
+            cur_key = str(list(self.engine.facts[i].as_dict().keys())[0])
+            if cur_key == key + '_support_':
+                return str(list(self.engine.facts[i].as_dict().values())[0])
 
-        self.w_root.textBrowser_4.setText("\n".join(actions))
+    def resize_columns(self):
+        for i in range(6):
+            self.w_root.tableView.resizeColumnToContents(i)
+            self.w_root.tableView.setColumnWidth(i, self.w_root.tableView.columnWidth(i) + 10)
+        # self.w_root.tableView.setColumnWidth(1, 400)
 
 
 if __name__ == "__main__":
