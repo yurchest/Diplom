@@ -2,7 +2,7 @@ from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QWidget, QMessageBox
 from UI.init_data import Ui_Form
 
-from core_expert import declare_facts
+from src.core_experta2 import user_declare_facts
 
 
 class InitData(QWidget):
@@ -20,16 +20,20 @@ class InitData(QWidget):
     def __accept(self):
         self.main_app.engine.reset()
         facts = self.w_root.textEdit.toPlainText()
-        self._add_fact(facts.split("\n"))
+        self._add_facts(facts.split("\n"))
         self.w.close()
-        self.main_app.w_root.textBrowser_2.setText(facts)
         self.main_app.update_work_memory()
 
-    def _add_fact(self, fact: list[str]):
+    def _add_facts(self, facts: list[str]):
         try:
-            declare_facts(fact, self.main_app.engine)
-        except SyntaxError:
-            raise SyntaxError
+            user_declare_facts(facts, self.main_app.engine)
+            self.main_app.w_root.textBrowser_2.setText("\n".join(facts))
+        except (SyntaxError):
+            self.main_app.engine.reset()
+            self.main_app.w_root.textBrowser_2.clear()
+            self.main_app.update_work_memory()
             msgBox = QMessageBox()
             msgBox.setText("Ошибка добавления фактов")
             msgBox.exec()
+
+            # raise SyntaxError
