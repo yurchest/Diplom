@@ -2,7 +2,7 @@ from experta import *
 from pandas import DataFrame
 from src.database import getRulesFromDb
 
-from utils.utils import parse_expression
+from src.utils import parse_expression
 
 
 def make_rule_decorator(lhs: str) -> list:
@@ -36,7 +36,7 @@ def make_func(rules_validated: list, fact_to_add: str, priority: int) -> Rule:
     return Rule(AND(*tuple(rules_validated)), salience=priority)(func)
 
 
-def addRules(productions: DataFrame, ex) -> None:
+def addRules(productions: DataFrame, ex: KnowledgeEngine) -> None:
     for ind in productions.index:
         rules_validated = make_rule_decorator(productions['lhs'][ind])
         setattr(ex, f"_{ind}", make_func(rules_validated, productions['rhs'][ind], productions['priority'][ind]))

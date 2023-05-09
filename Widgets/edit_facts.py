@@ -1,21 +1,21 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QWidget, QMessageBox
-from UI.init_data import Ui_Form
+from UI.edit_facts import *
+from Models.facts import Facts
 
-from src.core_experta2 import user_declare_facts
 
-
-class InitData(QWidget):
-    def __init__(self, main_app):
+class EditFacts(QWidget):
+    def __init__(self, db):
         QWidget.__init__(self)
         self.w = QtWidgets.QDialog()
-        self.w_root = Ui_Form()
+        self.w_root = Ui_Dialog()
         self.w_root.setupUi(self.w)
+        # TODO ALL
+        self.db = db
 
-        self.main_app = main_app
+        self.facts_model = Facts(self.db, "facts")
+        self.w_root.tableView.setModel(self.facts_model)
 
-        self.w_root.pushButton_2.clicked.connect(lambda: self.w.close())
-        self.w_root.pushButton.clicked.connect(self.__accept)
 
     def __accept(self):
         self.main_app.engine.reset()

@@ -2,12 +2,13 @@ from PyQt6.QtSql import *
 from PyQt6.QtCore import Qt
 
 
-class ProdBaseModel(QSqlQueryModel):
-    header_data = {"date": "Дата",
-                   "lhs": "Условие",
-                   "fact_to_add": "Действие",
-                   "description": "Описание",
-                   "priority": "Приоритет",
+class Facts(QSqlQueryModel):
+    header_data = {"fact": "Факт",
+                   "type": "Тип данных",
+                   "min_num": "Мин",
+                   "max_num": "Макс",
+                   "step_num": "Шаг",
+                   "variants_text": "Варианты",
                    }
 
     def __init__(self, db, tablename):
@@ -22,4 +23,4 @@ class ProdBaseModel(QSqlQueryModel):
             self.setHeaderData(i, Qt.Orientation.Horizontal, self.header_data[self.record().fieldName(i)])
 
     def __update(self):
-        self.setQuery(f"""SELECT * FROM {self.tablename}""")
+        self.setQuery(f"""SELECT fact, min_num, max_num, step_num_variants_text FROM {self.tablename}""")

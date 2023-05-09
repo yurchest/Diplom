@@ -1,10 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QFileDialog
-from UI.form import *
-from Models.production_base import ProdBaseModel
-from src.database import connect_QSQL_db
-from Widgets.edit_facts import InitData
+from PyQt6.QtWidgets import QWidget
 
-from src.core_experta2 import *
+from Models.production_base import ProdBaseModel
+from UI.new_form import *
+from Widgets.edit_facts import EditFacts
+# from src.core_experta2 import *
+from src.utils import *
 
 
 class App(QWidget):
@@ -16,19 +16,24 @@ class App(QWidget):
         self.w_root = Ui_MainWindow()
         self.w_root.setupUi(self.w)
 
-        self.init_data_form = InitData(self)
-        self.w_root.pushButton_2.setEnabled(False)
-        self.w_root.pushButton_3.setEnabled(False)
+        # self.init_data_form = InitData(self)
 
-        self.w_root.pushButton.clicked.connect(self.download_base)
-        self.w_root.pushButton_3.clicked.connect(self.init_data)
-        self.w_root.pushButton_2.clicked.connect(self.solve)
+        self.db = connect_knowledge_base()
+        self.edit_facts_form = EditFacts(self.db)
+
+        self.base_model = ProdBaseModel(self.db, self.tablename)
+        self.w_root.tableView.setModel(self.base_model)
+        # TODO сделать изменяемым
+
+        self.w_root.pushButton.clicked.connect(self.edit_facts)
 
         self.w.show()
 
+    def edit_facts(self):
+        self.edit_facts_form = EditFacts(self.db)
+        self.edit_facts_form.w.show()
+
     def download_base(self):
-        filename, _ = QFileDialog.getOpenFileName(None, 'Open Base', './', "Database (*.db *.sqlite *.sqlite3)")
-        self.db = connect_QSQL_db(filename)
         if self.db:
             self.base_model = ProdBaseModel(self.db, self.tablename)
             self.w_root.tableView.setModel(self.base_model)
@@ -44,10 +49,6 @@ class App(QWidget):
             self.engine = KE()
             self.engine.reset()
             print(self.df_rules)
-
-    def init_data(self):
-        self.init_data_form.w.show()
-        # self.update_work_memory()
 
     def solve(self):
         self.engine.run()
