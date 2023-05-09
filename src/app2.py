@@ -30,7 +30,6 @@ class App(QWidget):
         self.w.show()
 
     def edit_facts(self):
-        self.edit_facts_form = EditFacts(self.db)
         self.edit_facts_form.w.show()
 
     def download_base(self):

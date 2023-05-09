@@ -1,5 +1,6 @@
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QWidget, QMessageBox
+from PyQt6.QtWidgets import QWidget, QMessageBox, QFormLayout, QPushButton, QLabel, QVBoxLayout, QGroupBox, QComboBox, \
+    QLineEdit
 from UI.edit_facts import *
 from Models.facts import Facts
 
@@ -16,24 +17,30 @@ class EditFacts(QWidget):
         self.facts_model = Facts(self.db, "facts")
         self.w_root.tableView.setModel(self.facts_model)
 
+        self.add_fact_button = QPushButton("Добавить")
 
-    def __accept(self):
-        self.main_app.engine.reset()
-        facts = self.w_root.textEdit.toPlainText()
-        self._add_facts(facts.split("\n"))
-        self.w.close()
-        self.main_app.update_work_memory()
+        self.add_fact_button.clicked.connect(self.add_fact)
+        self.w_root.pushButton.clicked.connect(self.apply)
+        self.w_root.pushButton_2.clicked.connect(lambda: self.w.close())
 
-    def _add_facts(self, facts: list[str]):
-        try:
-            user_declare_facts(facts, self.main_app.engine)
-            self.main_app.w_root.textBrowser_2.setText("\n".join(facts))
-        except (SyntaxError):
-            self.main_app.engine.reset()
-            self.main_app.w_root.textBrowser_2.clear()
-            self.main_app.update_work_memory()
-            msgBox = QMessageBox()
-            msgBox.setText("Ошибка добавления фактов")
-            msgBox.exec()
+        self.facts = self.facts_model.get_list_facts()
+        self.facts_add = self.facts_model.get_facts()
+        self.init_scroll_area()
 
-            # raise SyntaxError
+    def init_scroll_area(self):
+        groupBox = QGroupBox()
+        self.formLayout = QFormLayout()
+        self.formLayout.addRow(self.add_fact_button)
+        groupBox.setLayout(self.formLayout)
+        self.w_root.scrollArea.setWidget(groupBox)
+
+    def add_fact(self):
+        comboBox = QComboBox()
+        comboBox.addItems(self.facts)
+        self.formLayout.insertRow(self.formLayout.rowCount() - 1, comboBox, QLineEdit())
+
+    def layout_widgets(self, layout):
+        return (layout.itemAt(i) for i in range(layout.count() - 1))
+
+    def apply(self):
+        pass
