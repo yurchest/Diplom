@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QWidget
 from Models.production_base import ProdBaseModel
 from UI.new_form import *
 from Widgets.edit_facts import EditFacts
-# from src.core_experta2 import *
+from src.core_expert2 import *
 from src.utils import *
 
 
@@ -17,60 +17,44 @@ class App(QWidget):
         self.w_root.setupUi(self.w)
 
         # self.init_data_form = InitData(self)
+        self.db, self.db_filename = connect_knowledge_base()
+        self.engine = self.init_engine()
 
-        self.db = connect_knowledge_base()
-        self.edit_facts_form = EditFacts(self.db)
+        self.edit_facts_form = EditFacts(self.db, self.engine, self.w_root.tableWidget)
 
         self.base_model = ProdBaseModel(self.db, self.tablename)
         self.w_root.tableView.setModel(self.base_model)
+        self.w_root.tableView.resizeColumnsToContents()
         # TODO сделать изменяемым
 
         self.w_root.pushButton.clicked.connect(self.edit_facts)
+        self.w_root.pushButton_2.clicked.connect(self.solve)
 
         self.w.show()
 
     def edit_facts(self):
+        self.w_root.tableWidget.clearContents()
+        self.w_root.tableWidget.setRowCount(0)
         self.edit_facts_form.w.show()
 
-    def download_base(self):
-        if self.db:
-            self.base_model = ProdBaseModel(self.db, self.tablename)
-            self.w_root.tableView.setModel(self.base_model)
-            self.resize_columns()
-            # self.w_root.tableView.horizontalHeader().moveSection(5, 3)
-            # self.w_root.tableView.horizontalHeader().moveSection(6, 4)
-            self.db.close()
-            self.df_rules = getRulesFromDb(filename, self.tablename)
-            self.w_root.pushButton_2.setEnabled(True)
-            self.w_root.pushButton_3.setEnabled(True)
-            KE = type("KE", (KnowledgeEngine,), dict())
-            addRules(self.df_rules, KE)
-            self.engine = KE()
-            self.engine.reset()
-            print(self.df_rules)
+    def init_engine(self):
+        KE = type("KE", (KnowledgeEngine,), dict())
+        self.df_rules = getRulesFromDb(self.db_filename, self.tablename)
+        addRules(
+            productions=self.df_rules,
+            ex=KE,
+            description_text_browser=self.w_root.textBrowser,
+            work_memory_table_widget=self.w_root.tableWidget_2,
+        )
+        engine = KE()
+        engine.reset()
+        return engine
+
 
     def solve(self):
+        self.w_root.tableWidget_2.clearContents()
+        self.w_root.tableWidget_2.setRowCount(0)
+        # user_declare_facts(["температура=40", "кашель=true", "насморк=true"], self.engine)
         self.engine.run()
-        self.update_work_memory()
-
-    def update_work_memory(self):
-        facts = []
-        for i in range(1, len(self.engine.facts)):
-            key = str(list(self.engine.facts[i].as_dict().keys())[0])
-            value = str(list(self.engine.facts[i].as_dict().values())[0])
-            if key != "0":
-                k_value = f"{key} = {value} \t\t"
-                facts.append(f"{k_value}")
-            else:
-                facts.append(value)
-        self.w_root.textBrowser.clear()
-        self.w_root.textBrowser.setText("\n".join(facts))
-
-    def resize_columns(self):
-        # for i in range(6):
-        #     self.w_root.tableView.resizeColumnToContents(i)
-        #     self.w_root.tableView.setColumnWidth(i, self.w_root.tableView.columnWidth(i) + 10)
-        self.w_root.tableView.setColumnWidth(0, 100)
-        self.w_root.tableView.setColumnWidth(1, 400)
-        self.w_root.tableView.setColumnWidth(2, 350)
-        self.w_root.tableView.setColumnWidth(3, 100)
+        print(self.engine.facts)
+        # self.update_work_memory()

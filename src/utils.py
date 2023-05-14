@@ -6,7 +6,7 @@ import pandas as pd
 import sqlite3
 
 from PyQt6.QtSql import QSqlDatabase
-from PyQt6.QtWidgets import QMessageBox, QFileDialog
+from PyQt6.QtWidgets import QMessageBox, QFileDialog, QTableWidget, QTableWidgetItem
 
 
 def parse_expression(expression):
@@ -66,7 +66,6 @@ def getRulesFromDb(db_name, tablename):
             print("The SQLite connection is closed")
 
 
-
 def connect_QSQL_db(db_name):
     db = QSqlDatabase.addDatabase("QSQLITE")
     file = os.path.join(os.path.dirname(os.path.realpath(__file__)), db_name)
@@ -82,4 +81,13 @@ def connect_QSQL_db(db_name):
 def connect_knowledge_base():
     filename, _ = QFileDialog.getOpenFileName(None, 'Open Base', './', "Database (*.db *.sqlite *.sqlite3)")
     db = connect_QSQL_db(filename)
-    return db
+    return db, filename
+
+
+def add_row_tablewidget(tablewidget: QTableWidget, str1: str, str2: str):
+    rowPosition = tablewidget.rowCount()
+    tablewidget.insertRow(rowPosition)
+
+    # добавление данных в ячейки новой строки
+    tablewidget.setItem(rowPosition, 0, QTableWidgetItem(str1))
+    tablewidget.setItem(rowPosition, 1, QTableWidgetItem(str2))

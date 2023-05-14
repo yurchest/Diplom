@@ -7,11 +7,11 @@
 5. В БЗ должны быть факты на добавление и действия отдельно
 
 """
-from PyQt6.QtWidgets import QTextBrowser
+from PyQt6.QtWidgets import QTextBrowser, QTableWidget
 from experta import *
 from pandas import DataFrame
 
-from src.utils import parse_expression
+from src.utils import *
 
 
 def get_rules_validated(lhs: str) -> list:
@@ -20,7 +20,6 @@ def get_rules_validated(lhs: str) -> list:
 
     for rule in lhs_splitted:
         parsed_result = parse_expression(rule)
-        print(parsed_result)
         if parsed_result:
             variable, operator, value = parsed_result
             if operator == "=":
@@ -57,12 +56,14 @@ def make_func(rules_validated: list,
               priority: int,
               description: str,
               description_text_browser: QTextBrowser,
-              work_memory_text_browser: QTextBrowser,
+              work_memory_table_widget: QTableWidget,
               ) -> Rule:
     def func(self):
         if fact_to_add:
             self.declare(make_fact(fact_to_add))
-            work_memory_text_browser.setText(fact_to_add + "\n")
+            variable, _, value = parse_expression(fact_to_add)
+            add_row_tablewidget(work_memory_table_widget, variable, value)
+            work_memory_table_widget.resizeColumnsToContents()
         if description:
             description_text_browser.setText(description + "\n")
 
@@ -72,7 +73,7 @@ def make_func(rules_validated: list,
 def addRules(productions: DataFrame,
              ex: KnowledgeEngine,
              description_text_browser: QTextBrowser,
-             work_memory_text_browser: QTextBrowser,
+             work_memory_table_widget: QTableWidget,
              ) -> None:
     for ind in productions.index:
         rules_validated = get_rules_validated(productions['lhs'][ind])
@@ -83,5 +84,11 @@ def addRules(productions: DataFrame,
                     priority=productions['priority'][ind],
                     description=productions['description'][ind],
                     description_text_browser=description_text_browser,
-                    work_memory_text_browser=work_memory_text_browser,
+                    work_memory_table_widget=work_memory_table_widget,
                 ), )
+
+
+def user_declare_facts(facts: list[str], engine):
+    for fact_to_add in facts:
+        if fact_to_add:
+            engine.declare(make_fact(fact_to_add))

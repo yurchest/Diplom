@@ -24,7 +24,7 @@ class Facts(QSqlQueryModel):
             self.setHeaderData(i, Qt.Orientation.Horizontal, self.header_data[self.record().fieldName(i)])
 
     def __update(self):
-        self.setQuery(f"""SELECT fact FROM {self.tablename}""")
+        self.setQuery(f"""SELECT * FROM {self.tablename}""")
 
     def test_query(self):
         query = QSqlQuery()

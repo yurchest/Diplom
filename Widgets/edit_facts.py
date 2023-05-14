@@ -3,19 +3,23 @@ from PyQt6.QtWidgets import QWidget, QMessageBox, QFormLayout, QPushButton, QLab
     QLineEdit
 from UI.edit_facts import *
 from Models.facts import Facts
+from src.core_expert2 import *
 
 
 class EditFacts(QWidget):
-    def __init__(self, db):
+    def __init__(self, db, engine, facts_table_widget):
         QWidget.__init__(self)
         self.w = QtWidgets.QDialog()
         self.w_root = Ui_Dialog()
         self.w_root.setupUi(self.w)
         # TODO ALL
         self.db = db
+        self.engine = engine
+        self.facts_table_widget = facts_table_widget
 
         self.facts_model = Facts(self.db, "facts")
         self.w_root.tableView.setModel(self.facts_model)
+        self.w_root.tableView.resizeColumnsToContents()
 
         self.add_fact_button = QPushButton("Добавить")
 
@@ -43,4 +47,22 @@ class EditFacts(QWidget):
         return (layout.itemAt(i) for i in range(layout.count() - 1))
 
     def apply(self):
-        pass
+        facts_to_add = []
+        # iterate over formLayout rows
+        for row in range(self.formLayout.rowCount() - 1):
+            fact_name = self.formLayout.itemAt(row, QFormLayout.ItemRole.LabelRole).widget().currentText()
+            fact_value = self.formLayout.itemAt(row, QFormLayout.ItemRole.FieldRole).widget().text()
+            fact = f"{fact_name}={fact_value}"
+            facts_to_add.append(fact)
+            rowPosition = self.facts_table_widget.rowCount()
+            self.facts_table_widget.insertRow(rowPosition)
+            self.facts_table_widget.setItem(rowPosition, 0, QTableWidgetItem(fact_name))
+            self.facts_table_widget.setItem(rowPosition, 1, QTableWidgetItem(fact_value))
+
+        try:
+            user_declare_facts(facts_to_add, self.engine)
+            self.w.close()
+        except TypeError:
+            msgBox = QMessageBox()
+            msgBox.setText("Факты заданы неверно.")
+            msgBox.exec()

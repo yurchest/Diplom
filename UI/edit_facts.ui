@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>923</width>
-    <height>555</height>
+    <width>1457</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="font">
@@ -75,7 +75,7 @@
     <rect>
      <x>580</x>
      <y>90</y>
-     <width>271</width>
+     <width>821</width>
      <height>381</height>
     </rect>
    </property>
@@ -104,6 +104,25 @@
    </property>
    <property name="text">
     <string>Отмена</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>50</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>Факты</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

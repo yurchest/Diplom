@@ -1,8 +1,6 @@
 from experta import *
 from pandas import DataFrame
-from src.database import getRulesFromDb
-
-from src.utils import parse_expression
+from src.utils import *
 
 
 def make_rule_decorator(lhs: str) -> list:
@@ -55,13 +53,6 @@ def make_fact(fact_not_parsed: str) -> Fact:
     else:
         fact = eval(f"Fact('{fact_not_parsed}')")
     return fact
-
-
-def user_declare_facts(facts: list[str], engine):
-    print(facts)
-    for fact_to_add in facts:
-        if fact_to_add:
-            engine.declare(make_fact(fact_to_add))
 
 
 if __name__ == '__main__':

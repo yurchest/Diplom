@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(923, 555)
+        Dialog.resize(1457, 568)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(14)
@@ -34,7 +34,7 @@ class Ui_Dialog(object):
         self.label_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_4.setObjectName("label_4")
         self.tableView = QtWidgets.QTableView(Dialog)
-        self.tableView.setGeometry(QtCore.QRect(580, 90, 271, 381))
+        self.tableView.setGeometry(QtCore.QRect(580, 90, 821, 381))
         self.tableView.setObjectName("tableView")
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(700, 510, 111, 31))
@@ -42,6 +42,11 @@ class Ui_Dialog(object):
         self.pushButton_2 = QtWidgets.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(820, 510, 91, 31))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.label_5 = QtWidgets.QLabel(Dialog)
+        self.label_5.setGeometry(QtCore.QRect(130, 50, 211, 31))
+        self.label_5.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.label_5.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_5.setObjectName("label_5")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -52,3 +57,4 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "Используемые факты"))
         self.pushButton.setText(_translate("Dialog", "Применить"))
         self.pushButton_2.setText(_translate("Dialog", "Отмена"))
+        self.label_5.setText(_translate("Dialog", "Факты"))
