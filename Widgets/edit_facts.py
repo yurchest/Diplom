@@ -24,7 +24,7 @@ class EditFacts(QWidget):
         self.add_fact_button = QPushButton("Добавить")
 
         self.add_fact_button.clicked.connect(self.add_fact)
-        self.w_root.pushButton.clicked.connect(self.apply)
+        self.w_root.pushButton.clicked.connect(lambda: self.apply(add=True))
         self.w_root.pushButton_2.clicked.connect(lambda: self.w.close())
 
         self.facts = self.facts_model.get_list_facts()
@@ -46,18 +46,23 @@ class EditFacts(QWidget):
     def layout_widgets(self, layout):
         return (layout.itemAt(i) for i in range(layout.count() - 1))
 
-    def apply(self):
+    def apply(self, add=True):
         facts_to_add = []
         # iterate over formLayout rows
         for row in range(self.formLayout.rowCount() - 1):
             fact_name = self.formLayout.itemAt(row, QFormLayout.ItemRole.LabelRole).widget().currentText()
             fact_value = self.formLayout.itemAt(row, QFormLayout.ItemRole.FieldRole).widget().text()
-            fact = f"{fact_name}={fact_value}"
+            if fact_value:
+                fact = f"{fact_name}={fact_value}"
+            else:
+                fact = fact_name
+
             facts_to_add.append(fact)
-            rowPosition = self.facts_table_widget.rowCount()
-            self.facts_table_widget.insertRow(rowPosition)
-            self.facts_table_widget.setItem(rowPosition, 0, QTableWidgetItem(fact_name))
-            self.facts_table_widget.setItem(rowPosition, 1, QTableWidgetItem(fact_value))
+            if add:
+                rowPosition = self.facts_table_widget.rowCount()
+                self.facts_table_widget.insertRow(rowPosition)
+                self.facts_table_widget.setItem(rowPosition, 0, QTableWidgetItem(fact_name))
+                self.facts_table_widget.setItem(rowPosition, 1, QTableWidgetItem(fact_value))
 
         try:
             user_declare_facts(facts_to_add, self.engine)

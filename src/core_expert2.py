@@ -29,7 +29,7 @@ def get_rules_validated(lhs: str) -> list:
             else:
                 fact = eval(f"Fact({variable} = P(lambda {variable}: {variable} {operator} {value}))")
         else:
-            fact = eval(f"Fact({rule})")
+            fact = eval(f"Fact('{rule}')")
 
         rules_validated.append(fact)
 
@@ -38,9 +38,9 @@ def get_rules_validated(lhs: str) -> list:
 
 def make_fact(fact_not_parsed: str) -> Fact:
     parsed_result = parse_expression(fact_not_parsed)
-    if parsed_result[1] != "=":
-        raise TypeError
     if parsed_result:
+        if parsed_result[1] != "=":
+            raise TypeError
         variable, operator, value = parsed_result
         if isinstance(value, str):
             fact = eval(f"Fact({variable} = '{value}')")
@@ -61,11 +61,15 @@ def make_func(rules_validated: list,
     def func(self):
         if fact_to_add:
             self.declare(make_fact(fact_to_add))
-            variable, _, value = parse_expression(fact_to_add)
-            add_row_tablewidget(work_memory_table_widget, variable, value)
+            parsed_result = parse_expression(fact_to_add)
+            if parsed_result:
+                variable, _, value = parsed_result
+                add_row_tablewidget(work_memory_table_widget, variable, value)
+            else:
+                add_row_tablewidget(work_memory_table_widget, fact_to_add, '')
             work_memory_table_widget.resizeColumnsToContents()
         if description:
-            description_text_browser.setText(description + "\n")
+            description_text_browser.append(description + "\n")
 
     return Rule(AND(*tuple(rules_validated)), salience=priority)(func)
 

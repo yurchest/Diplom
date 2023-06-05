@@ -16,21 +16,21 @@ class App(QWidget):
         self.w_root = Ui_MainWindow()
         self.w_root.setupUi(self.w)
 
-        # self.init_data_form = InitData(self)
-        self.db, self.db_filename = connect_knowledge_base()
-        self.engine = self.init_engine()
-
-        self.edit_facts_form = EditFacts(self.db, self.engine, self.w_root.tableWidget)
-
-        self.base_model = ProdBaseModel(self.db, self.tablename)
-        self.w_root.tableView.setModel(self.base_model)
-        self.w_root.tableView.resizeColumnsToContents()
         # TODO сделать изменяемым
 
+        self.w_root.pushButton_3.clicked.connect(self.open_bz)
         self.w_root.pushButton.clicked.connect(self.edit_facts)
         self.w_root.pushButton_2.clicked.connect(self.solve)
 
         self.w.show()
+
+    def open_bz(self):
+        self.db, self.db_filename = connect_knowledge_base()
+        self.engine = self.init_engine()
+        self.edit_facts_form = EditFacts(self.db, self.engine, self.w_root.tableWidget)
+        self.base_model = ProdBaseModel(self.db, self.tablename)
+        self.w_root.tableView.setModel(self.base_model)
+        self.w_root.tableView.resizeColumnsToContents()
 
     def edit_facts(self):
         self.w_root.tableWidget.clearContents()
@@ -50,11 +50,13 @@ class App(QWidget):
         engine.reset()
         return engine
 
-
     def solve(self):
         self.w_root.tableWidget_2.clearContents()
         self.w_root.tableWidget_2.setRowCount(0)
+        self.w_root.textBrowser.clear()
         # user_declare_facts(["температура=40", "кашель=true", "насморк=true"], self.engine)
+        self.engine.reset()
+        self.edit_facts_form.apply(add=False)
         self.engine.run()
         print(self.engine.facts)
         # self.update_work_memory()

@@ -22,8 +22,8 @@ def parse_expression(expression):
         if op in expression:
             operator = op
             break
-    else:
-        return 0
+        else:
+            return 0
 
     # Разбиение строки на переменную и значение
     variable, value = expression.split(operator)

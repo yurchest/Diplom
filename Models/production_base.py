@@ -17,6 +17,13 @@ class ProdBaseModel(QSqlQueryModel):
         self.__update()
         self.__change_column_name()
 
+    def flags(self, index):
+        fl = QSqlQueryModel.flags(self, index)
+        # if index.column() == 1:
+        #     fl |= Qt.ItemFlag.ItemIsEditable
+        fl |= Qt.ItemFlag.ItemIsEditable
+        return fl
+
     def __change_column_name(self):
         for i in range(self.columnCount()):
             self.setHeaderData(i, Qt.Orientation.Horizontal, self.header_data[self.record().fieldName(i)])

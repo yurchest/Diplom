@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1429</width>
-    <height>593</height>
+    <width>1284</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="font">
@@ -25,8 +25,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1441</width>
-      <height>581</height>
+      <width>1341</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="font">
@@ -59,7 +59,7 @@
         <x>20</x>
         <y>30</y>
         <width>1251</width>
-        <height>391</height>
+        <height>401</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -93,7 +93,7 @@
           <widget class="QTableWidget" name="tableWidget">
            <property name="minimumSize">
             <size>
-             <width>500</width>
+             <width>300</width>
              <height>0</height>
             </size>
            </property>
@@ -177,7 +177,7 @@
           <widget class="QTableWidget" name="tableWidget_2">
            <property name="minimumSize">
             <size>
-             <width>400</width>
+             <width>300</width>
              <height>0</height>
             </size>
            </property>
@@ -270,7 +270,7 @@
      <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>1200</x>
+        <x>1140</x>
         <y>460</y>
         <width>131</width>
         <height>41</height>
@@ -290,8 +290,8 @@
        <rect>
         <x>20</x>
         <y>60</y>
-        <width>1381</width>
-        <height>461</height>
+        <width>1241</width>
+        <height>441</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -315,6 +315,19 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>20</y>
+        <width>176</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Выбрать</string>
       </property>
      </widget>
     </widget>
